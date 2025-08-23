@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-profile-table
+      author: LCP
+      changes:
+        - createTable:
+            tableName: profiles
+            columns:
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    unique: true
+                    foreignKeyName: fk_user_id
+                    references: users(id)
+              - column:
+                  name: username
+                  type: varchar
+              - column:
+                  name: description
+                  type: varchar
+              - column:
+                  name: avatar_url
+                  type: varchar

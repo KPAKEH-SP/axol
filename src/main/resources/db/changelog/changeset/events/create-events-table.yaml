@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-events
+      author: LCP
+      changes:
+        - createTable:
+            tableName: events
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    unique: true
+              - column:
+                  name: user-id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk-user-id
+                    references: users(id)
+              - column:
+                  name: event-name
+                  type: varchar
+              - column:
+                  name: event-start
+                  type: bigint
+              - column:
+                  name: event-end
+                  type: bigint

@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      author: LCP
+      id: create-friends-table
+      changes:
+        - createTable:
+            tableName: friends
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    unique: true
+                    nullable: false
+              - column:
+                  name: sender
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_sender_id
+                    references: users(id)
+              - column:
+                  name: recipient
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_recipient_id
+                    references: users(id)
+              - column:
+                  name: accepted
+                  type: bool
+                  constraints:
+                    nullable: false
