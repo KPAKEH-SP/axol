@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tracking-table
+      author: LCP
+      changes:
+        - createTable:
+            tableName: tracking
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: watcher
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_watcher_id
+                    references: users(id)
+              - column:
+                  name: tracking
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_tracking_id
+                    references: users(id)

@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/changeset/friends/create-friend-table.yaml
   - include:
       file: db/changelog/changeset/events/create-events-table.yaml
+  - include:
+      file: db/changelog/changeset/tracking/create-tracking-table.yaml
