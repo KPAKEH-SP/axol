@@ -56,9 +56,7 @@ public class TrackingService {
         tracking.setWatcher(watcher);
         tracking.setTracking(trackingUser);
 
-        trackingRepository.save(tracking);
-
-        return ResponseEntity.ok("Теперь вы отслеживаете пользователя с тэгом " + userTag);
+        return ResponseEntity.ok(trackingUser.getUserTag());
     }
 
     @Transactional
@@ -80,6 +78,6 @@ public class TrackingService {
 
         trackingRepository.delete(tracking);
 
-        return ResponseEntity.ok("Пользователь с тэгом " + userTag + " больше не отслеживается");
+        return ResponseEntity.ok(userTag);
     }
 }

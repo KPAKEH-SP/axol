@@ -30,6 +30,11 @@ public class UserEventsController {
         return eventsService.addUserEvent(authentication, event);
     }
 
+    @PostMapping("/{eventId}")
+    public ResponseEntity<?> editUserEvent(Authentication authentication, @RequestBody UserEventRequest event, @PathVariable UUID eventId) {
+        return eventsService.editUserEvent(authentication, event, eventId);
+    }
+
     @DeleteMapping("/{eventId}")
     public ResponseEntity<?> deleteUserEvent(Authentication authentication, @PathVariable UUID eventId) {
         return eventsService.deleteUserEvent(authentication, eventId);

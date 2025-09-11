@@ -41,7 +41,6 @@ public class UserEventsService {
         return ResponseEntity.ok(getUserEventsByUserId(userId));
     }
 
-
     @Transactional
     public ResponseEntity<?> addUserEvent(Authentication authentication, UserEventRequest userEventRequest) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -52,9 +51,7 @@ public class UserEventsService {
         userEvent.setEventStart(userEventRequest.getEventStartDate());
         userEvent.setEventEnd(userEventRequest.getEventEndDate());
 
-        userEventsRepository.save(userEvent);
-
-        return ResponseEntity.ok("Событие успешно создано");
+        return ResponseEntity.ok(new UserEventResponse(userEventsRepository.save(userEvent)));
     }
 
     @Transactional
@@ -68,19 +65,27 @@ public class UserEventsService {
         }
 
         userEventsRepository.delete(optionalUserEvent.get());
-
-        return ResponseEntity.ok("Собыите удалено");
+        return ResponseEntity.ok(new UserEventResponse(optionalUserEvent.get()));
     }
 
     private List<UserEventResponse> getUserEventsByUserId(UUID userId) {
-        return userEventsRepository.getUserEventByUserId(userId).stream().map((event) -> {
-            UserEventResponse userEventResponse = new UserEventResponse();
-            userEventResponse.setId(event.getId());
-            userEventResponse.setEventName(event.getEventName());
-            userEventResponse.setEventStartDate(event.getEventStart());
-            userEventResponse.setEventEndDate(event.getEventEnd());
+        return userEventsRepository.getUserEventByUserId(userId).stream().map(UserEventResponse::new).toList();
+    }
 
-            return userEventResponse;
-        }).toList();
+    public ResponseEntity<?> editUserEvent(Authentication authentication, UserEventRequest event, UUID eventId) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        Optional<UserEvent> optionalUserEvent = userEventsRepository.getUserEventByIdAndUserId(eventId,userDetails.getId());
+
+        if (optionalUserEvent.isEmpty()) {
+            throw new UserEventNotFoundException();
+        }
+
+        UserEvent userEvent = optionalUserEvent.get();
+        userEvent.setEventName(event.getEventName());
+        userEvent.setEventStart(event.getEventStartDate());
+        userEvent.setEventEnd(event.getEventEndDate());
+
+        return ResponseEntity.ok(new UserEventResponse(userEventsRepository.save(userEvent)));
     }
 }
