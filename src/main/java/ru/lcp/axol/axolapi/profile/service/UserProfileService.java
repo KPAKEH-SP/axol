@@ -1,7 +1,6 @@
 package ru.lcp.axol.axolapi.profile.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -53,9 +52,8 @@ public class UserProfileService {
         userProfile.setUserId(userId);
         userProfile.setUsername(setProfileRequest.getUsername());
         userProfile.setDescription(setProfileRequest.getDescription());
-        userProfileRepository.save(userProfile);
 
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.ok(userProfileRepository.save(userProfile));
 
     }
 
