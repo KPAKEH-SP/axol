@@ -56,6 +56,8 @@ public class TrackingService {
         tracking.setWatcher(watcher);
         tracking.setTracking(trackingUser);
 
+        trackingRepository.save(tracking);
+
         return ResponseEntity.ok(trackingUser.getUserTag());
     }
 
