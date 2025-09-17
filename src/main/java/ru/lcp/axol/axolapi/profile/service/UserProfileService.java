@@ -21,7 +21,7 @@ import java.util.UUID;
 public class UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final UserRepository userRepository;
-    //
+
     public ResponseEntity<?> getProfile(Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         UUID userId = userDetails.getId();
